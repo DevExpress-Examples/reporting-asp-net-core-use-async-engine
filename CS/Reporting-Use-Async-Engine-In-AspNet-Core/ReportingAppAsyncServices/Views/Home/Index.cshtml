@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>ASP.NET Core Reporting Application</h1>
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a class="list-group-item-heading" asp-area="" asp-controller="Home" asp-action="Designer">Report Designer</a>
+                <p class="list-group-item-text">The End User Designer that uses the ReportStorageWebExtension service with asynchronous SetDataAsync, SetNewDataAsync, GetDataAsync and GetUrlsAsync methods. Note that the storage can operate only in asynchronous mode, because any blocking call executes a method named without the 'Async' postfix and throws an exception.</p>
+            </li>
+            <li class="list-group-item">
+                <a class="list-group-item-heading" asp-area="" asp-controller="Home" asp-action="Viewer">Document Viewer</a>
+                <p class="list-group-item-text">The Document Viewer that relies on the IReportProviderAsync service to resolve report IDs and load subreports.</p>
+
+            </li>
+            <li class="list-group-item">
+                <a class="list-group-item-heading" asp-area="" asp-controller="Home" asp-action="ExportToPdf">PDF Export</a>
+                <p class="list-group-item-text">This action demonstrates how the IReportProviderAsync service can resolve a report ID and load subreports during export operation without resort to the web report controls.</p>
+            </li>
+        </ul>
+    </div>
+</div>

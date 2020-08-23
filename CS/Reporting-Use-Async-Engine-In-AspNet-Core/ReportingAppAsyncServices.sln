@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingAppAsyncServices", "ReportingAppAsyncServices\ReportingAppAsyncServices.csproj", "{5A3AB9F5-8B42-4C90-A6C1-3F06E990AB00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A3AB9F5-8B42-4C90-A6C1-3F06E990AB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A3AB9F5-8B42-4C90-A6C1-3F06E990AB00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A3AB9F5-8B42-4C90-A6C1-3F06E990AB00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A3AB9F5-8B42-4C90-A6C1-3F06E990AB00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA7A31AB-ED97-48E8-8E23-967CE3F273EA}
+	EndGlobalSection
+EndGlobal
