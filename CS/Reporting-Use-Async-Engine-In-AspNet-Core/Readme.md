@@ -5,8 +5,9 @@ This example demonstrates how to use v20.2 services, which allow you to save, lo
 This application registers services with the **IReportProviderAsync** interface. The latter allows you to perform the following tasks asynchronously: 
 - open subreports from the master report; 
 - resolve a unique identifier to a report (an operation that affects the Designer Preview and Document Viewer performance). 
+
 In general, asynchronous operation mode gives you the following advantages: 
-- it handles threads in web applications more cautiously and returns threads to the thread pool while the operation is in progress.  
+- It handles threads in web applications more cautiously and returns threads to the thread pool while the operation is in progress.  
 - You can write safe asynchronous code in a project with a third-party library that uses only asynchronous API. 
  
 ## Implementation Details 
