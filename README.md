@@ -1,13 +1,9 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/289745215/2020.2)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T925249)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-<!-- default badges end -->
 # How to Use the Asynchronous Engine for Web Reporting 
  
 ## Overview 
-This example demonstrates how to use v20.2 services, which allow you to save, load, and export reports asynchronously. 
-This application registers services with the **IReportProviderAsync** interface. The latter allows you to perform the following tasks asynchronously: 
+This example demonstrates how to implement and use custom services, which allow you to save, load, and export reports asynchronously.
+  
+This application registers a service with the [IReportProviderAsync](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Services.IReportProviderAsync) interface. The latter allows you to perform the following tasks asynchronously: 
 - open subreports from the master report; 
 - resolve a unique identifier to a report (an operation that affects the Designer Preview and Document Viewer performance). 
 
@@ -19,28 +15,28 @@ In general, asynchronous operation mode gives you the following advantages:
 
 ### Perequisites 
 
-To get you started, we created a sample project with our ASP.NET Core Reporting Project Template. 
+To get started, create a sample project with our ASP.NET Core Reporting Project Template. 
 
 ### Report Provider 
 
-We declared a new code unit - `CustomReportProviderAsync.cs` with a class that implements the **DevExpress.XtraReports.Services.IReportProviderAsync** interface and calls the report storage's **GetDataAsync** method. 
+The `CustomReportProviderAsync.cs` file contains a class that implements the [DevExpress.XtraReports.Services.IReportProviderAsync](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Services.IReportProviderAsync) interface and calls the report storage's [ReportStorageWebExtension.GetDataAsync](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.Extensions.ReportStorageWebExtension.GetDataAsync(System.String)) method. 
 
 ### Report Storage 
 
-To implement a custom report storage with asynchronous methods, we declared a new code unit - `CustomReportStorageWebExtension.cs`. The CustomReportStorageWebExtension class inherits from the [ReportStorageWebExtension](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.Extensions.ReportStorageWebExtension) and overrides all its public methods. Note that methods, which cannot be used in asynchronous mode, throw exceptions.
+The `CustomReportStorageWebExtension.cs` file contains a class that implements a custom report storage with asynchronous methods. The **CustomReportStorageWebExtension** class inherits from the [ReportStorageWebExtension](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.Extensions.ReportStorageWebExtension) and overrides all its public methods. Note that methods, which cannot be used in asynchronous mode, throw exceptions.
 
 ### Report Model and Controllers
 
-We used the **GetModelAsync** methods in the Home controller to generate report models and send them to the End User Report Designer and Document Viewer.  
-ASP.NET Core Razor helpers cannot use asynchronous API if the Bind method receives a report instance or a string (ReportUrl) as a parameter. You must bind report controls to the [ReportDesignerModel](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.ReportDesigner.ReportDesignerModel) or [WebDocumentViewerModel](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.WebDocumentViewer.WebDocumentViewerModel) objects originated from controllers. The controller-based model allows you to use async API and avoid obscure problems. Such problems may occur when a subreport fails to load and throws an exception, or when a dynamic list of parameter values fails to retrieve its data.
+The Home controller uses the **GetModelAsync** methods to generate report models and send them to the End User Report Designer and Document Viewer.  
+You cannot use asynchronous API if the Bind method receives a report instance or a string (ReportUrl) as a parameter. Bind report controls to the [ReportDesignerModel](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.ReportDesigner.ReportDesignerModel) or [WebDocumentViewerModel](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.WebDocumentViewer.WebDocumentViewerModel) objects originated from controllers. The controller-based model allows you to use asynchronous API and avoid obscure problems. Such problems may occur when a subreport fails to load and throws an exception, or when a dynamic list of parameter values fails to retrieve its data.
 
 ### ExportToPdf Action 
 
-The export action takes advantage of the **IReportProviderAsync** service that resolves report ID to a report and expedites the load of subreports without the need for the web report controls. We used the DI container to inject the **IReportProviderAsync** service into the XtraReport instance. Then, we can call the asynchronous **CreateDocumentAsync** and **ExportToPdfAsync** methods.
+The export action takes advantage of the **IReportProviderAsync** service that resolves report ID to a report and expedites the load of subreports without the need for the web report controls. The DI container injects the **IReportProviderAsync** service into the XtraReport instance. Then, the asynchronous **CreateDocumentAsync** method creates a document and the asynchronous **ExportToPdfAsync** method exports the document to PDF.
 
 ### Enable Asynchronous Services
 
-Request handlers in ASP.NET Core applications are asynchronous. To enable asynchronous services, we called the **UseAsyncEngine** method at application startup:
+Request handlers in ASP.NET Core applications are asynchronous. To enable asynchronous services, call the **UseAsyncEngine** method at application startup:
 
 ```csharp
 services.ConfigureReportingServices(configurator => { 
