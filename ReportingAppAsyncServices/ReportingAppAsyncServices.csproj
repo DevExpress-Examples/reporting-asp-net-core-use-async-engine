@@ -5,9 +5,13 @@
     <DefaultItemExcludes>Reports\**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="Reports\**" />
+    <Content Remove="Models\**" />
     <Content Remove="Reports\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Reports\**" />
+    <None Remove="Models\**" />
     <None Remove="Reports\**" />
   </ItemGroup>
   <ItemGroup>
@@ -67,8 +71,5 @@
     <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="22.2.*-*" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

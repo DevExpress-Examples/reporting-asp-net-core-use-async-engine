@@ -1,11 +1,7 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/289745215/2022.2)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T925249)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-<!-- default badges end -->
-# How to Use the Asynchronous Engine for Web Reporting 
+# Reporting for ASP.NET Core - How to Use the Asynchronous Engine
  
 ## Overview 
+
 This example demonstrates how to implement and use custom services, which allow you to save, load, and export reports asynchronously.
   
 This application registers a service with the [IReportProviderAsync](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Services.IReportProviderAsync) interface. The latter allows you to perform the following tasks asynchronously: 
@@ -16,6 +12,11 @@ In general, asynchronous operation mode gives you the following advantages:
 - It handles threads in web applications more cautiously and returns threads to the thread pool while the operation is in progress.  
 - You can write safe asynchronous code in a project with a third-party library that uses only asynchronous API. 
  
+ You can use an asynchronous engine in the following scenarios: 
+- Handle the End User Report Designer and Web Document Viewer events to load data or create a document asynchronously. The key point is that these actions can be performed in the context of the current HTTP request in the [WebDocumentViewerOperationLogger](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.WebDocumentViewer.WebDocumentViewerOperationLogger) and  [PreviewReportCustomizationService](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.ReportDesigner.Services.PreviewReportCustomizationService) class methods. 
+- Drill Through navigation in the Web Document Viewer. Use the  **IDrillThroughProcessorAsync** interface. 
+- If an application uses JWT-based Authentication, use the **IWebDocumentViewerExportResultUriGeneratorAsync** interface to load exported documents to the storage asynchronously. 
+
 ## Implementation Details 
 
 ### Perequisites 
@@ -55,10 +56,17 @@ services.ConfigureReportingServices(configurator => {
 });
 ``` 
  
-## Notes 
+## Files to Review 
 
-You can use an asynchronous engine in the following scenarios: 
-- Handle the End User Report Designer and Web Document Viewer events to load data or create a document asynchronously. The key point is that these actions can be performed in the context of the current HTTP request in the [WebDocumentViewerOperationLogger](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.WebDocumentViewer.WebDocumentViewerOperationLogger) and  [PreviewReportCustomizationService](https://docs.devexpress.com/XtraReports/DevExpress.XtraReports.Web.ReportDesigner.Services.PreviewReportCustomizationService) class methods. 
-- Drill Through navigation in the Web Document Viewer. Use the  **IDrillThroughProcessorAsync** interface. 
-- If an application uses JWT-based Authentication, use the **IWebDocumentViewerExportResultUriGeneratorAsync** interface to load exported documents to the storage asynchronously. 
+- [Startup.cs](ReportingAppAsyncServices/Startup.cs)
+- [CustomReportProviderAsync.cs](ReportingAppAsyncServices/Services/CustomReportProviderAsync.cs)
+- [CustomPreviewCustomizationService.cs](ReportingAppAsyncServices/Services/CustomPreviewCustomizationService.cs)
+- [CustomReportStorageWebExtension.cs](ReportingAppAsyncServices/Services/CustomReportStorageWebExtension.cs)
+- [HomeController.cs](ReportingAppAsyncServices/Controllers/HomeController.cs)
+
+## Documentation
+- [UseAsyncEngine](https://docs.devexpress.com/XtraReports/DevExpress.AspNetCore.Reporting.ReportingConfigurationBuilder.UseAsyncEngine)
+
+## More Examples
  
+- [ASP.NET Core Reporting - Best Practices](https://github.com/DevExpress-Examples/AspNetCore.Reporting.BestPractices)
