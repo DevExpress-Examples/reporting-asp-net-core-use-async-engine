@@ -5,13 +5,9 @@
     <DefaultItemExcludes>Reports\**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Models\**" />
     <Compile Remove="Reports\**" />
-    <Content Remove="Models\**" />
     <Content Remove="Reports\**" />
-    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Reports\**" />
-    <None Remove="Models\**" />
     <None Remove="Reports\**" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +64,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
-    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="22.2.*-*" />
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="23.1.*-*" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
   </ItemGroup>
