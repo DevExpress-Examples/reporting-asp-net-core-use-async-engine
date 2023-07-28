@@ -2,17 +2,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Threading.Tasks;
-using DevExpress.AspNetCore.Reporting.QueryBuilder;
-using DevExpress.AspNetCore.Reporting.ReportDesigner;
 using DevExpress.AspNetCore.Reporting.WebDocumentViewer;
 using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports.Services;
-using DevExpress.XtraReports.Web.ReportDesigner;
+using DevExpress.XtraReports.Web.ReportDesigner.Services;
 using DevExpress.XtraReports.Web.WebDocumentViewer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ReportingAppAsyncServices.Controllers
-{
+namespace ReportingAppAsyncServices.Controllers {
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -20,22 +17,23 @@ namespace ReportingAppAsyncServices.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Designer([FromQuery] string reportName = "RootReport")
+        public async Task<IActionResult> Designer([FromServices] IReportDesignerModelBuilder reportDesignerModelBuilder, [FromQuery] string reportName = "RootReport")
         {
             var dataSources = new Dictionary<string, object>
             {
                 ["Northwind"] = GetNorthwindSqlDataSource()
             };
-            var modelGenerator = new ReportDesignerClientSideModelGenerator(HttpContext.RequestServices);
-            var model = await modelGenerator.GetModelAsync(reportName, dataSources, ReportDesignerController.DefaultUri, WebDocumentViewerController.DefaultUri, QueryBuilderController.DefaultUri);
-            return View(model);
+            var designerModel = await reportDesignerModelBuilder
+                .DataSources(dataSources)
+                .Report(reportName)
+                .BuildModelAsync();
+            return View(designerModel);
         }
 
-        public async Task<IActionResult> Viewer([FromQuery] string reportName = "RootReport")
+        public async Task<IActionResult> Viewer([FromServices] IWebDocumentViewerClientSideModelGenerator modelGenerator, [FromQuery] string reportName = "RootReport")
         {
-            var modelGenerator = new WebDocumentViewerClientSideModelGenerator(HttpContext.RequestServices);
-            var model = await modelGenerator.GetModelAsync(reportName, WebDocumentViewerController.DefaultUri);
-            return View(model);
+            var viewerModel = await modelGenerator.GetModelAsync(reportName, WebDocumentViewerController.DefaultUri);
+            return View(viewerModel);
         }
         public async Task<IActionResult> ExportToPdf([FromServices] IReportProviderAsync reportProviderAsync, [FromQuery] string reportName = "RootReport")
         {
@@ -50,8 +48,7 @@ namespace ReportingAppAsyncServices.Controllers
             }
         }
 
-
-            SqlDataSource GetNorthwindSqlDataSource()
+        SqlDataSource GetNorthwindSqlDataSource()
         {
             // Create a SQL data source with the specified connection string.
             SqlDataSource ds = new SqlDataSource("NWindConnectionString");

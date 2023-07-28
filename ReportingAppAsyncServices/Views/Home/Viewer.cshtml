@@ -1,8 +1,11 @@
-@using ReportingAppAsyncServices.PredefinedReports
 @model DevExpress.XtraReports.Web.WebDocumentViewer.WebDocumentViewerModel;
 @{
     var viewerRender = Html.DevExpress().WebDocumentViewer("DocumentViewer")
         .Height("1000px")
+        .ClientSideModelSettings(x => {
+            x.IncludeCldrData = false;
+            x.IncludeCldrSupplemental = false;
+        })
         .Bind(Model);
     @viewerRender.RenderHtml()
 }
